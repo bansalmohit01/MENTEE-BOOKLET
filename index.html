@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ABES Engineering College – Mentoring Booklet</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --maroon: #7B1C1C;
+    --gold:   #C8912A;
+    --gold-lt:#F0C96B;
+    --cream:  #FDF8F2;
+    --ink:    #1A1208;
+    --muted:  #7A6E62;
+    --border: #D9CEBC;
+    --white:  #FFFFFF;
+    --radius: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0;
+    width: 240px;
+    background: var(--maroon);
+    color: var(--white);
+    display: flex; flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+  }
+  .sidebar-logo {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+  }
+  .sidebar-logo .college {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px; font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1.3;
+  }
+  .sidebar-logo .sub {
+    font-size: 10px; font-weight: 400;
+    color: rgba(255,255,255,.55);
+    margin-top: 3px; letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  .nav-section-title {
+    font-size: 9px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    color: rgba(255,255,255,.4);
+    padding: 16px 20px 6px;
+  }
+  .nav-link {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 20px;
+    font-size: 12.5px; font-weight: 400;
+    color: rgba(255,255,255,.75);
+    cursor: pointer;
+    transition: all .18s;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+  }
+  .nav-link:hover { background: rgba(255,255,255,.08); color: var(--white); }
+  .nav-link.active {
+    background: rgba(200,145,42,.18);
+    color: var(--gold-lt);
+    border-left-color: var(--gold);
+    font-weight: 600;
+  }
+  .nav-link .icon { font-size: 14px; flex-shrink: 0; }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    margin-left: 240px;
+    min-height: 100vh;
+    padding: 36px 40px 60px;
+  }
+
+  /* ── SECTION ── */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn .35s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--maroon);
+  }
+  .page-header .sem-badge {
+    background: var(--maroon); color: var(--white);
+    font-size: 11px; font-weight: 600; letter-spacing: .6px;
+    padding: 5px 14px; border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  /* ── CARDS & GRIDS ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--maroon);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title::after {
+    content: ''; flex: 1;
+    height: 1px; background: var(--border);
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .field-grid.cols-1 { grid-template-columns: 1fr; }
+  .field-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .field-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field {
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .field label {
+    font-size: 10.5px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .7px;
+    color: var(--muted);
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(200,145,42,.15);
+    background: var(--white);
+  }
+  .field textarea { resize: vertical; min-height: 70px; }
+  .field select { appearance: auto; }
+
+  /* ── RADIO GROUP ── */
+  .radio-group { display: flex; gap: 16px; flex-wrap: wrap; }
+  .radio-group label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 400; cursor: pointer;
+    color: var(--ink); text-transform: none; letter-spacing: 0;
+  }
+  .radio-group input[type=radio] { accent-color: var(--maroon); width:14px; height:14px; }
+
+  /* ── TABLE ── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .data-table th {
+    background: var(--maroon); color: var(--white);
+    padding: 9px 10px; text-align: left;
+    font-size: 11px; font-weight: 600; letter-spacing: .4px;
+  }
+  .data-table th:first-child { border-radius: 6px 0 0 0; }
+  .data-table th:last-child  { border-radius: 0 6px 0 0; }
+  .data-table td {
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td input, .data-table td select {
+    width: 100%; border: none; border-radius: 0;
+    padding: 8px 10px;
+    font-size: 12.5px; font-family: 'DM Sans', sans-serif;
+    background: transparent; outline: none; color: var(--ink);
+  }
+  .data-table td input:focus, .data-table td select:focus {
+    background: rgba(200,145,42,.07);
+  }
+  .data-table tr:nth-child(even) td { background: rgba(253,248,242,.6); }
+  .data-table .sno-cell {
+    width: 36px; text-align: center;
+    font-size: 11px; font-weight: 600;
+    color: var(--muted); padding: 8px 6px;
+  }
+
+  /* ── PHOTO UPLOAD ── */
+  .photo-upload {
+    width: 110px; height: 130px;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px; cursor: pointer;
+    transition: border-color .18s, background .18s;
+    background: var(--cream);
+    flex-shrink: 0;
+  }
+  .photo-upload:hover { border-color: var(--gold); background: rgba(200,145,42,.05); }
+  .photo-upload input { display: none; }
+  .photo-upload .icon { font-size: 26px; color: var(--muted); }
+  .photo-upload .txt { font-size: 10px; color: var(--muted); text-align: center; font-weight: 500; }
+  .photo-upload img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: none; }
+
+  /* ── COVER PAGE ── */
+  .cover-hero {
+    background: linear-gradient(135deg, var(--maroon) 0%, #5a1010 100%);
+    border-radius: 14px;
+    padding: 40px 44px;
+    color: var(--white);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-hero::before {
+    content: '';
+    position: absolute; right: -40px; top: -40px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(200,145,42,.12);
+  }
+  .cover-hero::after {
+    content: '';
+    position: absolute; right: 60px; bottom: -60px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(200,145,42,.08);
+  }
+  .cover-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; font-weight: 700;
+    color: var(--gold-lt);
+    margin-bottom: 6px;
+  }
+  .cover-hero .sub {
+    font-size: 13px; color: rgba(255,255,255,.65);
+    letter-spacing: .4px;
+  }
+  .cover-meta { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  .cover-meta-chip {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 11px; color: rgba(255,255,255,.8); font-weight: 500;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar { display: flex; gap: 4px; margin-bottom: 24px; }
+  .progress-step {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: var(--border);
+    transition: background .3s;
+  }
+  .progress-step.done { background: var(--gold); }
+  .progress-step.active { background: var(--maroon); }
+
+  /* ── BUTTONS ── */
+  .btn-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 10px 22px; border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; border: none; transition: all .18s;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--maroon); color: var(--white);
+  }
+  .btn-primary:hover { background: #9b2020; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(123,28,28,.3); }
+  .btn-secondary {
+    background: var(--white); color: var(--maroon);
+    border: 1.5px solid var(--maroon);
+  }
+  .btn-secondary:hover { background: rgba(123,28,28,.06); }
+  .btn-gold {
+    background: var(--gold); color: var(--white);
+  }
+  .btn-gold:hover { background: #b07820; transform: translateY(-1px); }
+
+  /* ── NOTE BOX ── */
+  .note {
+    background: rgba(200,145,42,.1);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 12px; color: var(--muted);
+    margin-top: -4px; margin-bottom: 12px;
+  }
+
+  /* ── ATTENDANCE CHIPS ── */
+  .att-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .att-field {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 16px;
+    flex: 1; min-width: 180px;
+  }
+  .att-label { font-size: 12px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .att-input {
+    border: none; border-bottom: 2px solid var(--border);
+    background: transparent; width: 70px;
+    font-size: 20px; font-weight: 700; font-family: 'DM Mono', monospace;
+    color: var(--maroon); text-align: center; outline: none;
+    padding: 2px 4px;
+  }
+  .att-input:focus { border-bottom-color: var(--gold); }
+  .att-unit { font-size: 13px; font-weight: 600; color: var(--muted); }
+
+  /* ── SCORE CARD ── */
+  .score-card { display: flex; gap: 12px; flex-wrap: wrap; }
+  .score-box {
+    flex: 1; min-width: 90px;
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px; text-align: center;
+  }
+  .score-box label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .6px; color: var(--muted); display: block; margin-bottom: 6px;
+  }
+  .score-box input {
+    width: 100%; border: none; border-bottom: 2px solid var(--border);
+    background: transparent; text-align: center;
+    font-size: 20px; font-weight: 700; font-family: 'DM Mono', monospace;
+    color: var(--maroon); outline: none; padding: 2px;
+  }
+  .score-box input:focus { border-bottom-color: var(--gold); }
+  .score-box.highlight { border-color: var(--gold); background: rgba(200,145,42,.07); }
+  .score-box.highlight label { color: var(--gold); }
+  .score-box.highlight input { color: var(--gold); }
+
+  /* ── REMARKS ── */
+  .remarks-select {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px;
+  }
+  .rem-chip {
+    padding: 6px 18px; border-radius: 20px;
+    border: 1.5px solid var(--border);
+    font-size: 12.5px; font-weight: 500; cursor: pointer;
+    transition: all .18s; background: var(--white); color: var(--muted);
+  }
+  .rem-chip:hover { border-color: var(--maroon); color: var(--maroon); }
+  .rem-chip.selected { background: var(--maroon); color: var(--white); border-color: var(--maroon); }
+
+  /* ── MEETING TABLE ── */
+  .meeting-table { width: 100%; border-collapse: collapse; }
+  .meeting-table th {
+    background: var(--maroon); color: var(--white);
+    padding: 9px 10px; font-size: 11px; font-weight: 600;
+  }
+  .meeting-table td { border-bottom: 1px solid var(--border); }
+  .meeting-table td input {
+    width: 100%; border: none; padding: 9px 10px;
+    font-size: 12.5px; font-family: 'DM Sans', sans-serif;
+    background: transparent; outline: none; color: var(--ink);
+  }
+  .meeting-table td input:focus { background: rgba(200,145,42,.07); }
+  .meeting-table tr:nth-child(even) td { background: rgba(253,248,242,.5); }
+
+  /* ── PRINT ── */
+  @media print {
+    .sidebar, .btn-row, .save-bar { display: none !important; }
+    .main { margin-left: 0; padding: 20px; }
+    .section { display: block !important; page-break-after: always; }
+    .card { box-shadow: none; border: 1px solid #ccc; }
+  }
+
+  /* ── SAVE BAR ── */
+  .save-bar {
+    position: fixed; bottom: 0; left: 240px; right: 0;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 12px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 50;
+    box-shadow: 0 -4px 20px rgba(0,0,0,.07);
+  }
+  .save-bar .status {
+    font-size: 12px; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .sidebar { width: 100%; height: auto; position: relative; flex-direction: row; flex-wrap: wrap; }
+    .main { margin-left: 0; padding: 16px; padding-bottom: 80px; }
+    .save-bar { left: 0; }
+    .field-grid.cols-2, .field-grid.cols-3 { grid-template-columns: 1fr; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="college">ABES Engineering College</div>
+    <div class="sub">Mentoring Booklet</div>
+  </div>
+
+  <div class="nav-section-title">Student Info</div>
+  <a class="nav-link active" onclick="showSection('cover')" href="#">
+    <span class="icon">🏠</span> Cover Page
+  </a>
+  <a class="nav-link" onclick="showSection('personal')" href="#">
+    <span class="icon">👤</span> Personal Details
+  </a>
+
+  <div class="nav-section-title">Semester Assessment</div>
+  <a class="nav-link" onclick="showSection('sem1')" href="#"><span class="icon">📘</span> 1st Semester</a>
+  <a class="nav-link" onclick="showSection('sem2')" href="#"><span class="icon">📗</span> 2nd Semester</a>
+  <a class="nav-link" onclick="showSection('sem3')" href="#"><span class="icon">📙</span> 3rd Semester</a>
+  <a class="nav-link" onclick="showSection('sem4')" href="#"><span class="icon">📔</span> 4th Semester</a>
+  <a class="nav-link" onclick="showSection('sem5')" href="#"><span class="icon">📒</span> 5th Semester</a>
+  <a class="nav-link" onclick="showSection('sem6')" href="#"><span class="icon">📓</span> 6th Semester</a>
+  <a class="nav-link" onclick="showSection('sem7')" href="#"><span class="icon">📕</span> 7th Semester</a>
+  <a class="nav-link" onclick="showSection('sem8')" href="#"><span class="icon">🎓</span> 8th Semester</a>
+
+  <div class="nav-section-title">Profile & Records</div>
+  <a class="nav-link" onclick="showSection('technical')" href="#"><span class="icon">💻</span> Technical Profile</a>
+  <a class="nav-link" onclick="showSection('meeting')" href="#"><span class="icon">🤝</span> Meeting Records</a>
+  <a class="nav-link" onclick="showSection('remarks')" href="#"><span class="icon">📝</span> Other Remarks</a>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+<!-- ── COVER ── -->
+<div class="section active" id="cover">
+  <div class="cover-hero">
+    <div class="sub">ABES Engineering College &nbsp;·&nbsp; Ghaziabad – 201009 (UP)</div>
+    <h2>Mentoring Booklet</h2>
+    <div class="sub">Department of ___________________________</div>
+    <div class="cover-meta">
+      <span class="cover-meta-chip">Est. 2000</span>
+      <span class="cover-meta-chip">NH-24, Ghaziabad</span>
+      <span class="cover-meta-chip">AKTU Affiliated</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Course Information</div>
+    <div class="field-grid cols-2">
+      <div class="field"><label>Department</label><input type="text" placeholder="e.g. Computer Science & Engineering"/></div>
+      <div class="field"><label>Course</label><input type="text" placeholder="B.Tech / M.Tech…"/></div>
+      <div class="field"><label>Batch</label><input type="text" placeholder="e.g. 2022–2026"/></div>
+      <div class="field"><label>Section</label><input type="text" placeholder="e.g. CS-A"/></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Student Identification</div>
+    <div class="field-grid cols-2">
+      <div class="field"><label>Full Name</label><input type="text" placeholder="Student's full name"/></div>
+      <div class="field"><label>Admission ID</label><input type="text" placeholder="Admission ID"/></div>
+      <div class="field"><label>University Roll No.</label><input type="text" placeholder="University Roll No."/></div>
+      <div class="field"><label>Aadhar No.</label><input type="text" placeholder="XXXX-XXXX-XXXX"/></div>
+    </div>
+    <div style="margin-top:16px;">
+      <div class="field"><label>Mode of Admission</label>
+        <div class="radio-group">
+          <label><input type="radio" name="mode" value="UPESS"/> UPESS</label>
+          <label><input type="radio" name="mode" value="Direct"/> Direct</label>
+          <label><input type="radio" name="mode" value="JEE"/> JEE</label>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="field"><label>Accommodation</label>
+        <div class="radio-group">
+          <label><input type="radio" name="acc" value="Hosteller"/> Hosteller</label>
+          <label><input type="radio" name="acc" value="Day-scholar"/> Day-scholar</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Mentor Details</div>
+    <div class="field-grid cols-2">
+      <div class="field"><label>Mentor 1 – Name</label><input type="text" placeholder="Mentor's full name"/></div>
+      <div class="field"><label>Mentor 2 – Name (if any)</label><input type="text" placeholder="Second mentor (optional)"/></div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="showSection('personal')">Next: Personal Details →</button>
+    <button class="btn btn-secondary" onclick="window.print()">🖨 Print Booklet</button>
+  </div>
+</div>
+
+<!-- ── PERSONAL ── -->
+<div class="section" id="personal">
+  <div class="page-header">
+    <h1>Personal Details</h1>
+    <span class="sem-badge">Mentee Profile</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Basic Information</div>
+    <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+      <div style="flex:1; min-width:260px;">
+        <div class="field-grid cols-1">
+          <div class="field"><label>University Roll No.</label><input type="text"/></div>
+          <div class="field"><label>Mobile No. (Student)</label><input type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+          <div class="field"><label>Mobile No. (Parents)</label><input type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+          <div class="field"><label>Email (Student)</label><input type="email"/></div>
+          <div class="field"><label>Email (Parent)</label><input type="email"/></div>
+          <div class="field"><label>Occupation of Father / Mother</label><input type="text"/></div>
+        </div>
+      </div>
+      <label class="photo-upload" for="photo-input" title="Click to upload photo">
+        <input id="photo-input" type="file" accept="image/*" onchange="previewPhoto(this)"/>
+        <img id="photo-preview"/>
+        <div class="icon">📷</div>
+        <div class="txt">Upload<br/>Photo</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Address Details</div>
+    <div class="field-grid cols-1">
+      <div class="field"><label>Correspondence Address</label><textarea placeholder="Full correspondence address…" rows="2"></textarea></div>
+      <div class="field"><label>Permanent Address</label><textarea placeholder="Full permanent address…" rows="2"></textarea></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Category & Local Guardian</div>
+    <div class="field-grid cols-2">
+      <div class="field"><label>Sex</label>
+        <div class="radio-group"><label><input type="radio" name="sex" value="M"/> Male</label><label><input type="radio" name="sex" value="F"/> Female</label><label><input type="radio" name="sex" value="O"/> Other</label></div>
+      </div>
+      <div class="field"><label>Category</label>
+        <select><option value="">Select…</option><option>GEN</option><option>OBC</option><option>SC</option><option>ST</option><option>MINORITY</option></select>
+      </div>
+      <div class="field"><label>Local Guardian Name</label><input type="text"/></div>
+      <div class="field"><label>Local Guardian Contact</label><input type="tel"/></div>
+      <div class="field"><label>Local Guardian Address</label><input type="text"/></div>
+      <div class="field"><label>Local Guardian Email</label><input type="email"/></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Academic Qualifications</div>
+    <table class="data-table">
+      <thead><tr>
+        <th>Class</th><th>Board / University</th>
+        <th>Percentage (Aggr.)</th><th>Percentage (PCM/PCB/Sci.)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:8px 10px;font-weight:600;">10th</td><td><input type="text"/></td><td><input type="text" placeholder="%"/></td><td><input type="text" placeholder="%"/></td></tr>
+        <tr><td style="padding:8px 10px;font-weight:600;">12th</td><td><input type="text"/></td><td><input type="text" placeholder="%"/></td><td><input type="text" placeholder="%"/></td></tr>
+        <tr><td style="padding:8px 10px;font-weight:600;">Other</td><td><input type="text"/></td><td><input type="text" placeholder="%"/></td><td><input type="text" placeholder="%"/></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Co / Extra-Curricular Activities</div>
+    <div class="field-grid cols-1">
+      <div class="field"><label>Activity 1</label><input type="text"/></div>
+      <div class="field"><label>Activity 2</label><input type="text"/></div>
+      <div class="field"><label>Activity 3</label><input type="text"/></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Previous Achievements</div>
+    <div class="field"><textarea rows="3" placeholder="List any notable awards, ranks, achievements…"></textarea></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="showSection('cover')">← Back</button>
+    <button class="btn btn-primary" onclick="showSection('sem1')">Next: 1st Semester →</button>
+  </div>
+</div>
+
+<!-- ── SEMESTER TEMPLATE (1–8) ── -->
+<script>
+const SEM_SUBJECTS = 7;
+
+function semSubjectTable(semId) {
+  let rows = '';
+  for (let i = 1; i <= SEM_SUBJECTS; i++) {
+    rows += `<tr>
+      <td class="sno-cell">${i}</td>
+      <td><input type="text" placeholder="Subject Code & Name"/></td>
+      <td><input type="text" placeholder="Marks / A / D"/></td>
+      <td><input type="text" placeholder="Marks / A / D"/></td>
+      <td><input type="text" placeholder="Marks / A / D"/></td>
+      <td><input type="text" placeholder="Marks / A / D"/></td>
+    </tr>`;
+  }
+  return `<table class="data-table">
+    <thead><tr>
+      <th>S.No.</th><th>Subject (Code &amp; Name)</th>
+      <th>1st Sessional</th><th>2nd Sessional</th>
+      <th>Make-up</th><th>PUE</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function carryOverTable() {
+  let cells = '';
+  for (let i = 1; i <= 6; i++) cells += `<td><input type="text" placeholder="Sub ${i}"/></td>`;
+  return `<table class="data-table" style="margin-top:8px;">
+    <thead><tr><th>Sub Code 1</th><th>Sub Code 2</th><th>Sub Code 3</th><th>Sub Code 4</th><th>Sub Code 5</th><th>Sub Code 6</th></tr></thead>
+    <tbody><tr>${cells}</tr></tbody>
+  </table>`;
+}
+
+function seepTable() {
+  return `<table class="data-table">
+    <thead><tr><th>S.No.</th><th>SEEP</th><th>Overall Attendance</th><th>Performance</th></tr></thead>
+    <tbody><tr><td class="sno-cell">1</td><td>Technical Writing &amp; Communication Skill</td><td><input type="text" placeholder="%"/></td><td><input type="text" placeholder="Grade"/></td></tr></tbody>
+  </table>`;
+}
+
+function aptitudeTable() {
+  return `<table class="data-table" style="margin-top:8px;">
+    <thead><tr><th>S.No.</th><th>Aptitude</th><th>Overall Attendance</th><th>No. of Tests Appeared</th><th>Max Mark</th><th>Score</th></tr></thead>
+    <tbody><tr><td class="sno-cell">2</td><td>Aptitude Classes</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr></tbody>
+  </table>`;
+}
+
+function renderSemPage(n, label, extraHTML, prevId, nextId) {
+  const el = document.getElementById('sem'+n);
+  const isEarlyAtt = (n <= 2);
+  const attSection = isEarlyAtt ? `
+    <div class="att-row">
+      <div class="att-field"><span class="att-label">Overall Attendance</span>
+        <input class="att-input" type="number" min="0" max="100" placeholder="00"/>
+        <span class="att-unit">%</span>
+      </div>
+      <div class="att-field" style="flex:2;">
+        <span class="att-label">Period</span>
+        <input type="date" style="border:none;background:transparent;font-size:13px;outline:none;"/> &nbsp;to&nbsp;
+        <input type="date" style="border:none;background:transparent;font-size:13px;outline:none;"/>
+      </div>
+    </div>` :
+    `<div class="att-row">
+      ${['Up to ST1','Up to ST2','Up to PUE'].map(l=>`
+      <div class="att-field"><span class="att-label">${l}</span>
+        <input class="att-input" type="number" min="0" max="100" placeholder="00"/>
+        <span class="att-unit">%</span>
+      </div>`).join('')}
+    </div>`;
+
+  el.innerHTML = `
+    <div class="page-header">
+      <h1>Semester Assessment</h1>
+      <span class="sem-badge">${label} Semester</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Mentor & Subjects</div>
+      <div class="field-grid cols-2">
+        <div class="field"><label>Mentor's Name</label><input type="text"/></div>
+        <div class="field"><label>Subjects Studying</label><input type="text" placeholder="e.g. DSA, DBMS, OS…"/></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Subject-wise Marks</div>
+      ${semSubjectTable(n)}
+      <div class="note">Mark "A" if absent &nbsp;|&nbsp; Mark "D" if detained</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Attendance Record</div>
+      ${attSection}
+    </div>
+    <div class="card">
+      <div class="card-title">Performance – ${label} Semester</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">1. Cumulative Score Card</p>
+      <div class="score-card">
+        <div class="score-box"><label>External</label><input type="number" placeholder="—"/></div>
+        <div class="score-box"><label>Internal</label><input type="number" placeholder="—"/></div>
+        <div class="score-box"><label>Total</label><input type="number" placeholder="—"/></div>
+        <div class="score-box highlight"><label>Marks</label><input type="number" placeholder="—"/></div>
+        <div class="score-box highlight"><label>Percentage</label><input type="number" placeholder="—"/></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin:14px 0 6px;">2. Carry Over (if any)</p>
+      ${carryOverTable()}
+    </div>
+    <div class="card">
+      <div class="card-title">Achievements & Conduct</div>
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px;">3. Any other Achievements</p>
+      <div class="field-grid cols-1">
+        <div class="field"><label>i.</label><input type="text"/></div>
+        <div class="field"><label>ii.</label><input type="text"/></div>
+        <div class="field"><label>iii.</label><input type="text"/></div>
+      </div>
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 8px;">4. Involvement in Indiscipline (if any)</p>
+      <div class="field-grid cols-1">
+        <div class="field"><label>i.</label><input type="text"/></div>
+        <div class="field"><label>ii.</label><input type="text"/></div>
+      </div>
+    </div>
+    ${extraHTML}
+    <div class="card">
+      <div class="card-title">Mentor Remarks</div>
+      ${(n<=2)?`<p style="font-size:12px;color:var(--muted);margin-bottom:10px;">5. Overall Remark</p>
+      <div class="remarks-select" id="rem-${n}">
+        <div class="rem-chip" onclick="selectRem(this,'rem-${n}')">Excellent</div>
+        <div class="rem-chip" onclick="selectRem(this,'rem-${n}')">V. Good</div>
+        <div class="rem-chip" onclick="selectRem(this,'rem-${n}')">Good</div>
+        <div class="rem-chip" onclick="selectRem(this,'rem-${n}')">Poor</div>
+      </div>
+      <div style="margin-top:12px;"><div class="field"><label>Additional Remarks</label><textarea rows="2"></textarea></div></div>`:
+      `<div class="field"><label>Mentor's Comments</label><textarea rows="3"></textarea></div>`}
+      <div style="margin-top:16px; display:flex; justify-content:flex-end;">
+        <div class="field" style="width:200px;"><label>Mentor Signature</label><input type="text" placeholder="____________________"/></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="showSection('${prevId}')">← Previous</button>
+      <button class="btn btn-primary" onclick="showSection('${nextId}')">Next →</button>
+    </div>
+  `;
+}
+</script>
+<div class="section" id="sem1"></div>
+<div class="section" id="sem2"></div>
+<div class="section" id="sem3"></div>
+<div class="section" id="sem4"></div>
+<div class="section" id="sem5"></div>
+<div class="section" id="sem6"></div>
+<div class="section" id="sem7"></div>
+<div class="section" id="sem8"></div>
+
+<!-- ── TECHNICAL PROFILE ── -->
+<div class="section" id="technical">
+  <div class="page-header"><h1>Technical Profile</h1></div>
+
+  <div class="card">
+    <div class="card-title">Trainings for Skill Building & Certifications</div>
+    <table class="data-table" id="training-table">
+      <thead><tr>
+        <th>S.No.</th><th>Title of Training</th><th>Discipline</th><th>Place</th><th>Duration</th>
+      </tr></thead>
+      <tbody id="training-body"></tbody>
+    </table>
+    <div style="margin-top:10px;">
+      <button class="btn btn-secondary" style="font-size:12px;padding:7px 14px;" onclick="addTrainingRow()">+ Add Row</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Industrial Training</div>
+    <div class="field-grid cols-3">
+      <div class="field"><label>Company Name</label><input type="text"/></div>
+      <div class="field"><label>Company Sector</label><input type="text"/></div>
+      <div class="field"><label>Incorporation Status</label><input type="text" placeholder="Pvt. Ltd / Public…"/></div>
+      <div class="field"><label>Discipline</label><input type="text"/></div>
+      <div class="field"><label>Date From</label><input type="date"/></div>
+      <div class="field"><label>Date To</label><input type="date"/></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Project</div>
+    <div class="field-grid cols-3">
+      <div class="field" style="grid-column:span 2"><label>Title of Project</label><input type="text"/></div>
+      <div class="field"><label>Duration</label><input type="text" placeholder="e.g. 3 months"/></div>
+      <div class="field"><label>Supervisor Name</label><input type="text"/></div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="showSection('sem8')">← 8th Semester</button>
+    <button class="btn btn-primary" onclick="showSection('meeting')">Next: Meeting Records →</button>
+  </div>
+</div>
+
+<!-- ── MEETING RECORDS ── -->
+<div class="section" id="meeting">
+  <div class="page-header"><h1>Meeting / Counseling Records</h1></div>
+  <div class="card">
+    <div class="card-title">Session Log</div>
+    <table class="meeting-table">
+      <thead><tr>
+        <th style="width:36px;">S.No.</th>
+        <th style="width:110px;">Date</th>
+        <th>Remarks</th>
+        <th style="width:110px;">Mentee Sign.</th>
+        <th style="width:110px;">Mentor Sign.</th>
+      </tr></thead>
+      <tbody id="meeting-body"></tbody>
+    </table>
+    <div style="margin-top:10px;">
+      <button class="btn btn-secondary" style="font-size:12px;padding:7px 14px;" onclick="addMeetingRow()">+ Add Row</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Mentor Comments – Performance & Area of Improvement</div>
+    <div class="field"><textarea rows="6" placeholder="Mentor's overall observations and improvement suggestions…"></textarea></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="showSection('technical')">← Technical Profile</button>
+    <button class="btn btn-primary" onclick="showSection('remarks')">Next: Other Remarks →</button>
+  </div>
+</div>
+
+<!-- ── OTHER REMARKS ── -->
+<div class="section" id="remarks">
+  <div class="page-header"><h1>Other Details / Remarks</h1></div>
+  <div class="card">
+    <div class="card-title">Remarks</div>
+    <table class="data-table" id="remarks-table">
+      <thead><tr><th style="width:48px;">S.No.</th><th>Remarks</th></tr></thead>
+      <tbody id="remarks-body"></tbody>
+    </table>
+    <div style="margin-top:10px;">
+      <button class="btn btn-secondary" style="font-size:12px;padding:7px 14px;" onclick="addRemarkRow()">+ Add Row</button>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="showSection('meeting')">← Meeting Records</button>
+    <button class="btn btn-gold" onclick="window.print()">🖨 Print / Save PDF</button>
+  </div>
+</div>
+
+</main>
+
+<!-- ── SAVE BAR ── -->
+<div class="save-bar">
+  <div class="status"><span class="status-dot"></span> All changes saved locally</div>
+  <div style="display:flex;gap:10px;">
+    <button class="btn btn-secondary" style="padding:7px 16px;font-size:12px;" onclick="saveData()">💾 Save</button>
+    <button class="btn btn-primary" style="padding:7px 16px;font-size:12px;" onclick="window.print()">🖨 Print</button>
+  </div>
+</div>
+
+<script>
+// ── Navigation ──────────────────────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const link = document.querySelector(`.nav-link[onclick*="'${id}'"]`);
+  if (link) link.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Semester pages ──────────────────────────────────────────────────────────
+const semDefs = [
+  { n:1, label:'1st',  extra:'', prev:'personal', next:'sem2' },
+  { n:2, label:'2nd',  extra:'', prev:'sem1', next:'sem3' },
+  { n:3, label:'3rd',
+    extra:`<div class="card"><div class="card-title">SEEP Performance – 3rd Sem</div>${seepTable()}<div style="margin-top:10px;display:flex;justify-content:flex-end;"><div class="field" style="width:220px;"><label>SEEP Coordinator Signature</label><input type="text" placeholder="____________________"/></div></div></div>`,
+    prev:'sem2', next:'sem4' },
+  { n:4, label:'4th',
+    extra:`<div class="card"><div class="card-title">SEEP Performance – 4th Sem</div>${seepTable()}<div style="margin-top:10px;display:flex;justify-content:flex-end;"><div class="field" style="width:220px;"><label>SEEP Coordinator Signature</label><input type="text" placeholder="____________________"/></div></div></div>`,
+    prev:'sem3', next:'sem5' },
+  { n:5, label:'5th',
+    extra:`<div class="card"><div class="card-title">Seminar & SEEP/Aptitude – 5th Sem</div>
+      <div class="field" style="margin-bottom:14px;"><label>5. Seminar Topic</label><input type="text"/></div>
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px;">6. SEEP Performance</p>${seepTable()}
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin:12px 0 8px;">Aptitude Classes</p>${aptitudeTable()}</div>`,
+    prev:'sem4', next:'sem6' },
+  { n:6, label:'6th',
+    extra:`<div class="card"><div class="card-title">Seminar & SEEP/Aptitude – 6th Sem</div>
+      <div class="field" style="margin-bottom:14px;"><label>5. Seminar Topic</label><input type="text"/></div>
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px;">6. SEEP Performance</p>${seepTable()}
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin:12px 0 8px;">Aptitude Classes</p>${aptitudeTable()}</div>`,
+    prev:'sem5', next:'sem7' },
+  { n:7, label:'7th',
+    extra:`<div class="card"><div class="card-title">Placement Details</div>
+      <div class="field-grid cols-2">
+        <div class="field"><label>5. Placement Status</label>
+          <div class="radio-group" style="margin-top:4px;">
+            <label><input type="radio" name="pl7" value="Placed"/> Placed</label>
+            <label><input type="radio" name="pl7" value="Not Placed"/> Not Placed</label>
+            <label><input type="radio" name="pl7" value="Higher Studies"/> Higher Studies</label>
+          </div>
+        </div>
+        <div class="field"><label>Company Name</label><input type="text"/></div>
+        <div class="field" style="grid-column:span 2"><label>Remarks by Dept. CCPD Coordinator</label><textarea rows="2"></textarea></div>
+      </div></div>`,
+    prev:'sem6', next:'sem8' },
+  { n:8, label:'8th',
+    extra:`<div class="card"><div class="card-title">Placement & GATE</div>
+      <div class="field-grid cols-2">
+        <div class="field"><label>5. Placement Status</label>
+          <div class="radio-group" style="margin-top:4px;">
+            <label><input type="radio" name="pl8" value="Placed"/> Placed</label>
+            <label><input type="radio" name="pl8" value="Not Placed"/> Not Placed</label>
+            <label><input type="radio" name="pl8" value="Higher Studies"/> Higher Studies</label>
+          </div>
+        </div>
+        <div class="field"><label>Company Name</label><input type="text"/></div>
+        <div class="field" style="grid-column:span 2"><label>Remarks by Dept. CCPD Coordinator</label><textarea rows="2"></textarea></div>
+        <div class="field"><label>GATE Enrollment No.</label><input type="text"/></div>
+        <div class="field"><label>GATE Score / Rank</label><input type="text"/></div>
+      </div></div>`,
+    prev:'sem7', next:'technical' },
+];
+semDefs.forEach(d => renderSemPage(d.n, d.label, d.extra, d.prev, d.next));
+
+// ── Dynamic tables ──────────────────────────────────────────────────────────
+let trainingCount = 0;
+function addTrainingRow() {
+  trainingCount++;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="sno-cell">${trainingCount}</td>
+    <td><input type="text" placeholder="Title"/></td>
+    <td><input type="text" placeholder="Discipline"/></td>
+    <td><input type="text" placeholder="Place"/></td>
+    <td><input type="text" placeholder="Duration"/></td>`;
+  document.getElementById('training-body').appendChild(tr);
+}
+// Pre-populate 5 training rows
+for (let i = 0; i < 5; i++) addTrainingRow();
+
+let meetingCount = 0;
+function addMeetingRow() {
+  meetingCount++;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="sno-cell">${meetingCount}</td>
+    <td><input type="date"/></td>
+    <td><input type="text" placeholder="Remarks…"/></td>
+    <td><input type="text" placeholder="Signature"/></td>
+    <td><input type="text" placeholder="Signature"/></td>`;
+  document.getElementById('meeting-body').appendChild(tr);
+}
+for (let i = 0; i < 10; i++) addMeetingRow();
+
+let remarkCount = 0;
+function addRemarkRow() {
+  remarkCount++;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="sno-cell">${remarkCount}</td>
+    <td><input type="text" placeholder="Remark…"/></td>`;
+  document.getElementById('remarks-body').appendChild(tr);
+}
+for (let i = 0; i < 8; i++) addRemarkRow();
+
+// ── Remarks chip selector ────────────────────────────────────────────────────
+function selectRem(el, groupId) {
+  document.querySelectorAll(`#${groupId} .rem-chip`).forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── Photo preview ────────────────────────────────────────────────────────────
+function previewPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('photo-preview');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    input.parentElement.querySelector('.icon').style.display = 'none';
+    input.parentElement.querySelector('.txt').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── Auto-save to localStorage ────────────────────────────────────────────────
+function saveData() {
+  const data = {};
+  document.querySelectorAll('input:not([type=radio]):not([type=file]),select,textarea').forEach((el, i) => {
+    data['f' + i] = el.value;
+  });
+  document.querySelectorAll('input[type=radio]:checked').forEach(el => {
+    data['r_' + el.name] = el.value;
+  });
+  try {
+    localStorage.setItem('abes_mentor_booklet', JSON.stringify(data));
+    const dot = document.querySelector('.status-dot');
+    dot.style.background = '#22c55e';
+    setTimeout(() => { dot.style.background = '#22c55e'; }, 1000);
+  } catch(e) {}
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem('abes_mentor_booklet');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    document.querySelectorAll('input:not([type=radio]):not([type=file]),select,textarea').forEach((el, i) => {
+      if (data['f' + i] !== undefined) el.value = data['f' + i];
+    });
+    Object.keys(data).filter(k => k.startsWith('r_')).forEach(k => {
+      const name = k.slice(2);
+      const el = document.querySelector(`input[type=radio][name="${name}"][value="${data[k]}"]`);
+      if (el) el.checked = true;
+    });
+  } catch(e) {}
+}
+
+// Auto-save every 30s
+setInterval(saveData, 30000);
+document.addEventListener('input', () => {
+  clearTimeout(window._saveTimer);
+  window._saveTimer = setTimeout(saveData, 2000);
+});
+
+window.addEventListener('load', loadData);
+</script>
+</body>
+</html>
