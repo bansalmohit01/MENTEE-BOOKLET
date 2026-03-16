@@ -855,10 +855,14 @@ function renderSemPage(n, label, extraHTML, prevId, nextId) {
 
 <!-- ── SAVE BAR ── -->
 <div class="save-bar">
-  <div class="status"><span class="status-dot"></span> All changes saved locally</div>
-  <div style="display:flex;gap:10px;">
+  <div style="display:flex;align-items:center;gap:14px;flex:1;flex-wrap:wrap;">
+    <div class="status"><span class="status-dot"></span> Auto-saved locally</div>
+    <div id="submit-status" style="font-size:12px;"></div>
+  </div>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
     <button class="btn btn-secondary" style="padding:7px 16px;font-size:12px;" onclick="saveData()">💾 Save</button>
-    <button class="btn btn-primary" style="padding:7px 16px;font-size:12px;" onclick="window.print()">🖨 Print</button>
+    <button class="btn btn-secondary" style="padding:7px 16px;font-size:12px;" onclick="window.print()">🖨 Print</button>
+    <button id="submit-btn" class="btn btn-gold" style="padding:7px 18px;font-size:12px;font-weight:700;" onclick="submitToSheets()">📤 Submit to Google Sheets</button>
   </div>
 </div>
 
@@ -1018,6 +1022,63 @@ function loadData() {
       if (el) el.checked = true;
     });
   } catch(e) {}
+}
+
+// ── Submit to Google Sheets ──────────────────────────────────────────────────
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxsF1DRulrkDLbZNsxUi3TDh1_63RRSPQYQguC4vkAVlgmhsyMAwg3ZSLqwRgcZnEbLGw/exec";
+
+function collectAllData() {
+  const data = { 'Submitted At': new Date().toLocaleString('en-IN') };
+  document.querySelectorAll('input:not([type=radio]):not([type=file]),select,textarea').forEach((el) => {
+    const lbl = el.closest('.field')?.querySelector('label')?.innerText
+             || el.placeholder || el.name || el.id || 'field';
+    // avoid duplicate keys by appending index if needed
+    let key = lbl.trim().replace(/\s+/g,' ');
+    let k = key, n = 1;
+    while (data.hasOwnProperty(k)) { k = key + '_' + (++n); }
+    data[k] = el.value || '';
+  });
+  document.querySelectorAll('input[type=radio]:checked').forEach(el => {
+    const nameMap = { mode:'Mode of Admission', acc:'Accommodation',
+      sex:'Sex', pl7:'Placement Sem7', pl8:'Placement Sem8' };
+    data[nameMap[el.name] || el.name] = el.value;
+  });
+  return data;
+}
+
+async function submitToSheets() {
+  const btn = document.getElementById('submit-btn');
+  const status = document.getElementById('submit-status');
+
+  const nameInputs = document.querySelectorAll('#personal input[type=text]');
+  let hasName = false;
+  nameInputs.forEach(i => { if(i.value.trim()) hasName = true; });
+  if (!hasName) {
+    status.innerHTML = '<span style="color:#dc2626;">⚠ Please fill in at least your Name before submitting.</span>';
+    showSection('personal'); return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Submitting…';
+  status.innerHTML = '<span style="color:var(--muted);">Sending to Google Sheets…</span>';
+
+  try {
+    const data = collectAllData();
+    await fetch(SHEET_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    btn.textContent = '✅ Submitted!';
+    btn.style.background = '#16a34a';
+    status.innerHTML = '<span style="color:#16a34a;font-weight:600;">✓ Submitted successfully! Your mentor can now see your data.</span>';
+    saveData();
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = '📤 Submit to Google Sheets';
+    btn.style.background = '';
+    status.innerHTML = '<span style="color:#dc2626;">✗ Failed. Check internet connection and try again.</span>';
+  }
 }
 
 // Auto-save every 30s
